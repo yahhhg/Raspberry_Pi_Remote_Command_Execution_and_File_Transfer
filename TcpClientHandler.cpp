@@ -154,7 +154,9 @@ void TcpClientHandler::sendFile(const QString& filePath)
     }
     // 先通知下位机准备接收文件，避免数据先发导致解析错误
     sendData(QJsonObject{ {"type", "prepare_recv_file"} });
+    //阻塞，直到至少有一个字节被写入套接字
     m_socket->waitForBytesWritten(500);
+    //线程阻塞，等待下位机处理，避免发送太快导致下位机接收不及时
     QThread::msleep(100);
     // 发送文件元数据（名称、大小）
     QJsonObject metaObj;
@@ -213,7 +215,7 @@ void TcpClientHandler::requestFile(const QString& remotePath)
 void TcpClientHandler::startReceivingFile(const QString& fileName, qint64 fileSize)
 {
     // 获取系统下载目录，并创建RemoteFiles子目录
-    QString saveDir = "D:/QT_xm/HostComputer/downloads";
+    QString saveDir = "../../../downloads";
     QDir().mkpath(saveDir);
     // 拼接完整的本地保存路径
     QString savePath = saveDir + "/" + fileName;
