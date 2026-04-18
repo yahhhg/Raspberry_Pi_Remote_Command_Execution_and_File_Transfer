@@ -262,8 +262,7 @@ def main():
             current_work_dir = os.getcwd()
             last_heartbeat_send = time.time()
 
-            # 原socket初始化代码替换为这个
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            
             # 大文件传输默认关闭TCP_NODELAY，开启Nagle算法，交互场景再临时开启
             sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 0)
             # 增大发送/接收缓冲区到256KB，可根据树莓派内存调整到1MB

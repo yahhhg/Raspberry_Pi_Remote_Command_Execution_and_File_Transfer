@@ -42,6 +42,7 @@ private slots:
     void onReadyRead();
     // QTcpSocket连接断开时触发
     void onDisconnected();
+
 private:
     QTcpSocket* m_socket;         // 与下位机通信的TCP套接字
     QByteArray m_buffer;           // 数据接收缓冲区，用于处理粘包和不完整数据
